@@ -1,9 +1,12 @@
 {
   "name": "weather-client",
   "private": true,
+  "homepage": "https://s-abirami05.github.io/weather-app-by-abi",
   "version": "0.0.0",
   "type": "module",
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
