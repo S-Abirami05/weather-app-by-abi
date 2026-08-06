@@ -23,11 +23,9 @@ function App() {
         return;
       }
       try {
-        // Fetch up to 100 results so we don't miss large cities that only partially match
         const res = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(searchQuery)}&count=100&language=en&format=json`);
         const data = await res.json();
         if (data.results) {
-          // Sort the results by population (descending) so popular cities appear first
           const sortedResults = data.results.sort((a, b) => (b.population || 0) - (a.population || 0));
           setSuggestions(sortedResults.slice(0, 5));
         } else {
@@ -113,6 +111,7 @@ function App() {
   body: JSON.stringify({
     city: finalName,
     temperature: weatherData.current.temperature_2m,
+    weather: getWeatherDescription(weatherData.current.weather_code),
     humidity: weatherData.current.relative_humidity_2m,
     wind: weatherData.current.wind_speed_10m
   })

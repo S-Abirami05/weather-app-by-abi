@@ -1,25 +1,31 @@
+require("dotenv").config();
+const supabase = require("./config/supabase");
 const express = require('express');
-const mongoose = require('mongoose');
 const cors = require('cors');
-const dotenv = require('dotenv');
-
-dotenv.config();
-
-const Search = require('./models/Search');
+ 
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI)
-.then(() => console.log('MongoDB Connected'))
-.catch(err => console.log(err));
-
 app.post('/save-weather', async (req, res) => {
   try {
-    const newSearch = new Search(req.body);
-    await newSearch.save();
+    const { error } = await supabase
+.from("weather_history")
+.insert([
+{
+city: req.body.city,
+temperature: req.body.temperature,
+weather: req.body.weather,
+humidity: req.body.humidity,
+wind: req.body.wind
+}
+]);
+
+if(error){
+throw error;
+}
 
     res.json({
       success: true,
@@ -35,9 +41,16 @@ app.post('/save-weather', async (req, res) => {
 
 app.get('/history', async (req, res) => {
   try {
-    const history = await Search.find().sort({ searchedAt: -1 });
+const { data, error } = await supabase
+.from("weather_history")
+.select("*")
+.order("searched_at", { ascending: false });
 
-    res.json(history);
+if(error){
+throw error;
+}
+
+res.json(data);
   } catch (err) {
     res.status(500).json({
       error: err.message
