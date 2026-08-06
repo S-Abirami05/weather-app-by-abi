@@ -57,7 +57,9 @@ res.json(data);
     });
   }
 });
-
+app.get("/", (req, res) => {
+  res.send("Weather API is running 🚀");
+});
 app.listen(process.env.PORT, () => {
   console.log(`Server running on ${process.env.PORT}`);
 });
