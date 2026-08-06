@@ -111,7 +111,7 @@ function App() {
   body: JSON.stringify({
     city: finalName,
     temperature: weatherData.current.temperature_2m,
-    weather: getWeatherDescription(weatherData.current.weather_code),
+     weather: getWeatherDescription(weatherData.current.weather_code),
     humidity: weatherData.current.relative_humidity_2m,
     wind: weatherData.current.wind_speed_10m
   })
