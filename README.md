@@ -29,8 +29,8 @@ Backend
 
 * Node.js
 * Express.js
-* MongoDB
-* Mongoose
+* Supabase 
+  
 
 Project Structure
 
